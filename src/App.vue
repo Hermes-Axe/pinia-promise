@@ -1,17 +1,19 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+ <div>{{ store.count }}</div>
+ <button @click="store.increment">plus one</button>
+ <button @click="store.promiseIncrement">promise plus one</button>
+ <button @click="store.myPromiseIncrement">my promise plus one</button>
 </template>
 
-<script>
-import HelloWorld from './components/HelloWorld.vue'
-
-export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
-}
+<script setup>
+import useTestStore from './useTestStore'
+const store = useTestStore()
+store.$onAction(({ after }) => {
+  console.log(Date.now(), 'actin started');
+  after(() => {
+    console.log(Date.now(), 'action finished');
+  });
+})
 </script>
 
 <style>
